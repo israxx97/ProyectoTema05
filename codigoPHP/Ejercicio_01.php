@@ -71,8 +71,10 @@
         ?>
         <h3>$_SESSION</h3>
         <?php
-        foreach ($_SESSION as $key => $value) {
-            echo '<p><b>' . $key . '</b> = ' . $value . '</p>';
+        if (isset($_SESSION) && is_null($_SESSION)) {
+            foreach ($_SESSION as $key => $value) {
+                echo '<p><b>' . $key . '</b> = ' . $value . '</p>';
+            }
         }
         ?>
         <h3>$_REQUEST</h3>

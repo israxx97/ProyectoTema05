@@ -26,8 +26,7 @@
                 $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $codUsuario = $_SERVER['PHP_AUTH_USER'];
-                $codUsuarioHash = hash('sha256', $_SERVER['PHP_AUTH_USER']);
-                $codPassHash = hash('sha256', $codUsuarioHash . $_SERVER['PHP_AUTH_PW']);
+                $codPassHash = hash('sha256', $codUsuario . $_SERVER['PHP_AUTH_PW']);
                 $statement = $miDB->prepare('SELECT * FROM Usuario WHERE CodUsuario = :codUsuario AND Password = :codPassHash');
                 $statement->bindParam(':codUsuario', $codUsuario);
                 $statement->bindParam(':codPassHash', $codPassHash);

@@ -10,7 +10,7 @@
         error_reporting(E_ALL);
 
         session_start();
-        
+
         if (isset($_POST['salir'])) {
             session_destroy();
             header('Location: Ejercicio_02.php');
@@ -35,7 +35,7 @@
             setcookie('visitas' . $_SESSION['username'], 1);
         }
 
-        
+
 
         if (isset($_POST['detalle'])) {
             header('Location: Detalle_Ejercicio_02.php');
@@ -50,7 +50,7 @@
                     $mensaje = 'Bienvenido ' . $_SESSION['username'] . ', esta es tu primera vez en la página.';
                 }
 
-                echo $mensaje;
+                /* echo $mensaje; */
                 ?>
             </p>
             <input type="submit" name="salir" value="Cerrar Sesión">

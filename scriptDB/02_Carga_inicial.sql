@@ -12,19 +12,19 @@ INSERT INTO Departamento (CodDepartamento, DescDepartamento) VALUES
     ('EEF', 'Mi departamento EEF');
 
 -- Inserción de datos en la tabla Usuario. --
-INSERT INTO Usuario (CodUsuario, DescUsuario, Password, Perfil) VALUES
-    ('admin', 'Administrador', SHA2('adminpaso', 256), 'Administrador'),
-    ('israel', 'Israel', SHA2('israelpaso', 256), 'Usuario'),
-    ('christian', 'Christian', SHA2('christianpaso', 256), 'Usuario'),
-    ('david', 'David', SHA2('davidpaso', 256), 'Usuario'),
-    ('adrian', 'Adrian', SHA2('adrianpaso', 256), 'Usuario'),
-    ('tania', 'Tania', SHA2('taniapaso', 256), 'Usuario'),
-    ('alejandro', 'Alejandro', SHA2('alejantdropaso', 256), 'Usuario'),
-    ('victor', 'Victor', SHA2('victorpaso', 256), 'Usuario'),
-    ('mario', 'Mario', SHA2('mariopaso', 256), 'Usuario'),
-    ('laura', 'Laura', SHA2('laurapaso', 256), 'Usuario'),
-    ('heraclio', 'Heraclio', SHA2('heracliopaso', 256), 'Usuario'),
-    ('baldomero', 'Baldomero', SHA2('baldomeropaso', 256), 'Usuario'),
-    ('amor', 'Amor', SHA2('amorpaso', 256), 'Usuario'),
-    ('maria', 'Maria', SHA2('mariapaso', 256), 'Usuario'),
-    ('teresa', 'Teresa', SHA2('teresapaso', 256), 'Usuario');
+INSERT INTO Usuario (CodUsuario, DescUsuario, Password, Perfil, NumVisitas, UltimaVisita) VALUES
+    ('admin', 'Administrador', SHA2('adminpaso', 256), 'Administrador', 0, now()),
+    ('israel', 'Israel', SHA2('israelpaso', 256), 'Usuario', 0, now()),
+    ('christian', 'Christian', SHA2('christianpaso', 256), 'Usuario', 0, now()),
+    ('david', 'David', SHA2('davidpaso', 256), 'Usuario', 0, now()),
+    ('adrian', 'Adrian', SHA2('adrianpaso', 256), 'Usuario', 0, now()),
+    ('tania', 'Tania', SHA2('taniapaso', 256), 'Usuario', 0, now()),
+    ('alejandro', 'Alejandro', SHA2('alejantdropaso', 256), 'Usuario', 0, now()),
+    ('victor', 'Victor', SHA2('victorpaso', 256), 'Usuario', 0, now()),
+    ('mario', 'Mario', SHA2('mariopaso', 256), 'Usuario', 0, now()),
+    ('laura', 'Laura', SHA2('laurapaso', 256), 'Usuario', 0, now()),
+    ('heraclio', 'Heraclio', SHA2('heracliopaso', 256), 'Usuario', 0, now()),
+    ('baldomero', 'Baldomero', SHA2('baldomeropaso', 256), 'Usuario', 0, now()),
+    ('amor', 'Amor', SHA2('amorpaso', 256), 'Usuario', 0, now()),
+    ('maria', 'Maria', SHA2('mariapaso', 256), 'Usuario', 0, now()),
+    ('teresa', 'Teresa', SHA2('teresapaso', 256), 'Usuario', 0, now());

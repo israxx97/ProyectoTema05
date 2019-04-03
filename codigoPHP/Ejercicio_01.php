@@ -8,22 +8,23 @@
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
-        ?>
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" action="POST">
-            <input type="submit" name="salir" value="Salir">
-        </form>
-        <?php
-        if (isset($_REQUEST['salir'])) {
+
+        if (isset($_POST['salir'])) {
+            $_SERVER['PHP_AUTH_USER'] = '';
+            $_SERVER['PHP_AUTH_PW'] = '';
             header('Location: ../index.php');
         }
 
         if ($_SERVER['PHP_AUTH_USER'] != 'admin' || $_SERVER['PHP_AUTH_PW'] != 'paso') {
-            header('WWW-Authenticate: Basic Realm="IGCDBDepartamentos"');
+            header('WWW-Authenticate: Basic Realm="usuarioDBDepartamentos"');
             header('HTTP/1.0 401 Unauthorized');
             echo "Has cancelado la autenticación";
             exit;
         }
         ?>
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST"> 
+            <input type="submit" name="salir" value="Salir">
+        </form>
         <h3>$_SERVER['PHP_AUTH_USER'];</h3>
         <?php
         echo $_SERVER['PHP_AUTH_USER'];

@@ -11,15 +11,9 @@
 
         require_once '../config/config.php';
 
-        if (isset($_POST['salir'])) {
-            $_SERVER['PHP_AUTH_USER'] = '';
-            $_SERVER['PHP_AUTH_PW'] = '';
-        }
-
         if (!isset($_SERVER['PHP_AUTH_USER'])) {
-            header('WWW-Authenticate: Basic realm="IGCDBDepartamentos"');
+            header('WWW-Authenticate: Basic realm="adminsql"');
             header("HTTP/1.0 401 Unauthorized");
-            exit;
         } else {
             try {
                 $miDB = new PDO(HOST_DB, USER_DB, PASS_DB);
@@ -35,16 +29,10 @@
                 if ($statement->rowCount() == 0) {
                     header('WWW-Authenticate: Basic realm="Acceso denegado"');
                     header("HTTP/1.0 401 Unauthorized");
-                    exit;
                 } else {
                     session_start();
-                    $_SESSION['username'] = $_SERVER['PHP_AUTH_USER'];
+                    $_SESSION['username'] = $codUsuario;
                     header('Location: Acceso_Ejercicio_02.php');
-                    ?>
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                        <input type="submit" name="salir" value="Salir">
-                    </form>
-                    <?php
                 }
             } catch (PDOException $pdoe) {
                 echo $pdoe->getMessage();

@@ -12,7 +12,9 @@ CREATE TABLE IF NOT EXISTS Usuario(
     CodUsuario varchar(256) PRIMARY KEY,
     DescUsuario varchar(255) NOT NULL,
     Password varchar(256) NOT NULL,
-    Perfil enum('Usuario', 'Administrador') NOT NULL
+    Perfil enum('Usuario', 'Administrador') NOT NULL,
+    NumVisitas int NOT NULL,
+    UltimaVisita datetime NOT NULL
 )Engine=InnoDB;
 
 -- Creación del usuario si no existe. --

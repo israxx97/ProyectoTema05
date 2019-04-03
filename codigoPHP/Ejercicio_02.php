@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Ejercicio 01 - Israel García Cabañeros</title>
+        <title>Ejercicio 02 - Israel García Cabañeros</title>
     </head>
     <body>
         <?php
@@ -20,8 +20,8 @@
                 $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $codUsuario = $_SERVER['PHP_AUTH_USER'];
-                $codPassHash = hash('sha256', $codUsuario . $_SERVER['PHP_AUTH_PW']);
-                $statement = $miDB->prepare('SELECT * FROM Usuario WHERE CodUsuario = :codUsuario AND Password = :codPassHash');
+                $codPassHash = hash('sha256', $_SERVER['PHP_AUTH_PW']);
+                $statement = $miDB->prepare('SELECT * FROM Usuarios WHERE codUsuario = :codUsuario AND password = :codPassHash');
                 $statement->bindParam(':codUsuario', $codUsuario);
                 $statement->bindParam(':codPassHash', $codPassHash);
                 $statement->execute();

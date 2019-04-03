@@ -11,3 +11,11 @@ En este proyecto se realizará el control de acceso, identificación de usuarios
 * Añadidos archivos sql.
 * Modificado index.php.
 * Añadidas imágenes.
+## v0.3.1 - 03/04/2019, 21:43
+* Modificado Acceso_Ejercicio_02.php.
+* Añadido Detalle.php.
+* Modificado Ejercicio_02.php.
+* Modificado Login.php.
+* Modificado Programa.php.
+* Modificado 01_Creacion_y_permisos.sql.
+* Modificado 02_Carga_inicial.sql.

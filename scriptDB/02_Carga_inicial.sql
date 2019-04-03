@@ -1,30 +1,30 @@
 -- Inserción de datos en la tabla Departamento. --
-INSERT INTO Departamento (CodDepartamento, DescDepartamento) VALUES
-    ('AAA', 'Mi departamento AAA'),
-    ('AAB', 'Mi departamento AAB'),
-    ('BBB', 'Mi departamento BBB'),
-    ('BBC', 'Mi departamento BBC'),
-    ('CCC', 'Mi departamento CCC'),
-    ('CCD', 'Mi departamento CCD'),
-    ('DDD', 'Mi departamento DDD'),
-    ('DDE', 'Mi departamento DDE'),
-    ('EEE', 'Mi departamento EEE'),
-    ('EEF', 'Mi departamento EEF');
+INSERT INTO Departamentos (codDepartamento, descDepartamento, fechaBaja) VALUES
+    ('AAA', 'Mi departamento AAA', NULL),
+    ('AAB', 'Mi departamento AAB', NULL),
+    ('BBB', 'Mi departamento BBB', NULL),
+    ('BBC', 'Mi departamento BBC', NULL),
+    ('CCC', 'Mi departamento CCC', NULL),
+    ('CCD', 'Mi departamento CCD', NULL),
+    ('DDD', 'Mi departamento DDD', NULL),
+    ('DDE', 'Mi departamento DDE', NULL),
+    ('EEE', 'Mi departamento EEE', NULL),
+    ('EEF', 'Mi departamento EEF', NULL);
 
 -- Inserción de datos en la tabla Usuario. --
-INSERT INTO Usuario (CodUsuario, DescUsuario, Password, Perfil, NumVisitas, UltimaVisita) VALUES
-    ('admin', 'Administrador', SHA2('adminpaso', 256), 'Administrador', 0, now()),
-    ('israel', 'Israel', SHA2('israelpaso', 256), 'Usuario', 0, now()),
-    ('christian', 'Christian', SHA2('christianpaso', 256), 'Usuario', 0, now()),
-    ('david', 'David', SHA2('davidpaso', 256), 'Usuario', 0, now()),
-    ('adrian', 'Adrian', SHA2('adrianpaso', 256), 'Usuario', 0, now()),
-    ('tania', 'Tania', SHA2('taniapaso', 256), 'Usuario', 0, now()),
-    ('alejandro', 'Alejandro', SHA2('alejantdropaso', 256), 'Usuario', 0, now()),
-    ('victor', 'Victor', SHA2('victorpaso', 256), 'Usuario', 0, now()),
-    ('mario', 'Mario', SHA2('mariopaso', 256), 'Usuario', 0, now()),
-    ('laura', 'Laura', SHA2('laurapaso', 256), 'Usuario', 0, now()),
-    ('heraclio', 'Heraclio', SHA2('heracliopaso', 256), 'Usuario', 0, now()),
-    ('baldomero', 'Baldomero', SHA2('baldomeropaso', 256), 'Usuario', 0, now()),
-    ('amor', 'Amor', SHA2('amorpaso', 256), 'Usuario', 0, now()),
-    ('maria', 'Maria', SHA2('mariapaso', 256), 'Usuario', 0, now()),
-    ('teresa', 'Teresa', SHA2('teresapaso', 256), 'Usuario', 0, now());
+INSERT INTO Usuarios (codUsuario, descUsuario, password, perfil, numVisitas, fechaHora) VALUES
+    ('admin', 'Administrador', SHA2('paso', 256), 'Administrador', 0, NULL),
+    ('israel', 'Israel', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('christian', 'Christian', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('david', 'David', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('adrian', 'Adrian', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('tania', 'Tania', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('alejandro', 'Alejandro', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('victor', 'Victor', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('mario', 'Mario', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('laura', 'Laura', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('heraclio', 'Heraclio', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('baldomero', 'Baldomero', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('amor', 'Amor', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('maria', 'Maria', SHA2('paso', 256), 'Usuario', 0, NULL),
+    ('teresa', 'Teresa', SHA2('paso', 256), 'Usuario', 0, NULL);

@@ -5,106 +5,133 @@
     </head>
     <body>
         <?php
-        require_once '../config/config.php';
-        require_once '../core/validacionFormularios.php';
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        require "../config/config.php";
+        require "../core/validacionFormularios.php";
+
+        setlocale(LC_TIME, 'es_ES.UTF-8');
+        date_default_timezone_set('Europe/Madrid');
 
         $entradaOK = true;
 
         $a_errores = [
-            'codUsuario' => null,
-            'password' => null
+            "usuario" => NULL,
+            "password" => NULL,
+            'noExiste' => NULL
         ];
+
 
         $a_respuesta = [
-            'codUsuario' => null,
-            'password' => null
+            "usuario" => NULL,
+            "password" => NULL
         ];
 
+        $miDB = null;
+        $statement = null;
+        $sql = null;
+        $numeroRegistros = NULL;
+
         try {
+
             $miDB = new PDO(HOST_DB, USER_DB, PASS_DB);
             $miDB->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            switch (true) {
-                case (isset($_POST['entrar'])):
-                    $a_errores['codUsuario'] = validacionFormularios::comprobarAlfabetico($_POST['codUsuario'], 256, 3, 1);
-                    $a_errores['password'] = validacionFormularios::comprobarAlfaNumerico($_POST['password'], 256, 4, 1);
+            if (isset($_REQUEST["entrar"])) {
+                $a_errores["usuario"] = validacionFormularios::comprobarAlfabetico($_REQUEST["usuario"], 50, 3, 1);
+                $a_errores["password"] = validacionFormularios::comprobarAlfanumerico($_REQUEST["password"], 50, 4, 1);
 
-                    $codUsuario = $_REQUEST['codUsuario'];
-                    $pass = hash('sha256', $codUsuario . $_REQUEST['password']);
-                    $statement = $miDB->prepare('SELECT * FROM Usuario WHERE CodUsuario = :codUsuario AND Password = :pass');
-                    $statement->bindParam(':codUsuario', $codUsuario);
-                    $statement->bindParam(':pass', $pass);
-                    $statement->execute();
+                $password = hash("sha256", $_REQUEST["password"]);
+                $sql = "select * from Usuarios where codUsuario=:usuario and password=:password";
+                $statement = $miDB->prepare($sql);
 
-                    if ($statement->rowCount() == 0) {
-                        $a_errores['codUsuario'] = $a_errores['codUsuario'] . 'Usuario o contraseña no disponibles.';
-                        $entradaOK = false;
-                    }
+                $statement->bindParam(":usuario", $_REQUEST["usuario"]);
+                $statement->bindParam(":password", $password);
 
-                    foreach ($a_errores as $key => $error) {
-                        if ($error != null) {
-                            $entradaOK = false;
-                        }
-                    }
+                $statement->execute();
+                $numeroRegistros = $statement->rowCount();
 
-                    break;
-
-                default:
+                if ($numeroRegistros == 0) {
+                    $a_errores["noExiste"] = " El usuario no existe. ";
                     $entradaOK = false;
+                }
 
-                    break;
+                foreach ($a_errores as $campo => $error) {
+                    if ($error != null) {
+                        $entradaOK = false;
+                        $_REQUEST[$campo] = "";
+                    }
+                }
+            } else {
+                $entradaOK = false;
             }
 
-            switch (true) {
-                case $entradaOK:
-                    session_start();
-                    $a_respuesta['codUsuario'] = $_REQUEST['codUsuario'];
-                    $_SESSION['username'] = $a_respuesta['codUsuario'];
-                    $statement = $miDB->prepare('SELECT * FROM Usuario WHERE CodUsuario = :codUsuario');
-                    $statement->bindParam(':codUsuario', $a_respuesta['codUsuario']);
-                    $statement->execute();
-                    $usuario = $statement->fetchObject();
-                    $numVisitas = $usuario->NumVisitas;
-                    $ultimaVisita = $usuario->UltimaVisita;
-                    $_SESSION['numVisitas'] = $numVisitas;
-                    $_SESSION['ultimaVisita'] = $ultimaVisita;
-                    $statement = $miDB->prepare('UPDATE Usuario SET NumVisitas = NumVisitas + 1, UltimaVisita = :ultimaVisita WHERE CodUsuario = :codigo');
-                    $fecha = new DateTime();
-                    $fechaActual = $fecha->getTimestamp();
-                    $statement->bindParam(':ultimaVisita', $fechaActual);
-                    $statement->bindParam(':codigo', $a_respuesta['codUsuario']);
-                    $statement->execute();
-                    header('Location: Programa.php');
+            if ($entradaOK) {
+                session_start();
+                $_SESSION["usuarioIGCDepartamento"] = $_REQUEST["usuario"];
 
-                    break;
+                $fechaHoraActual = date('Y:m:d H:i:s', time());
+                $ultimaFechaHora = NULL;
 
-                default:
-                    ?>
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-                        <label for="codUsuario">Código usuario:&nbsp;</label>
-                        <input type="text" name="codUsuario" id="codUsuario" value="<?php
-                        if (isset($_REQUEST['codUsuario']) && is_null($a_errores['codUsuario'])) {
-                            echo $_REQUEST['codUsuario'];
-                        }
-                        ?>"/><font color="red">&nbsp;*</font>
-                        <font color="red"><?php echo $a_errores['codUsuario']; ?></font>
-                        <br>
-                        <label for="password">Contraseña:&nbsp;</label>
-                        <input type="password" name="password" id="password" value="<?php
-                               if (isset($_REQUEST['password']) && is_null($a_errores['password'])) {
-                                   echo $_REQUEST['password'];
-                               }
-                               ?>"/><font color="red">&nbsp;*</font>
-                        <font color="red"><?php echo $a_errores['password']; ?></font>
-                        <br>
-                        <input type="submit" name="entrar" value="Entrar"/>
-                        <input type="button" name="cancelar" value="Cancelar" onclick="location = '../index.php'"/>
-                    </form>
-                    <?php
-                    break;
+                $sql = "select * from Usuarios where codUsuario=:usuario";
+                $statement = $miDB->prepare($sql);
+
+                $statement->bindParam(":usuario", $_REQUEST["usuario"]);
+
+                $statement->execute();
+                $registroUsuario = $statement->fetchObject();
+                $numeroVisitas = $registroUsuario->numVisitas;
+
+                if (is_null($registroUsuario->fechaHora)) {
+                    $ultimaFechaHora = date("H:i:s d-m-Y", time());
+                } else {
+                    $ultimaFechaHora = date("H:i:s d-m-Y", strtotime($registroUsuario->fechaHora));
+                }
+
+                $_SESSION["fechaHoraIGCDepartamentos"] = $ultimaFechaHora;
+
+                $sql = "update Usuarios set numVisitas=numVisitas+1, fechaHora=:fechaHora where codUsuario=:usuario";
+                $statement = $miDB->prepare($sql);
+
+                $statement->bindParam(":fechaHora", $fechaHoraActual);
+                $statement->bindParam(":usuario", $_REQUEST["usuario"]);
+
+                $statement->execute();
+
+                header('Location: ./Programa.php');
+            } else {
+                ?> 
+
+                <h2>Inciar sesión</h2> 
+                <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST"> 
+                    <label for="usuario">Código usuario:&nbsp;</label> 
+                    <input type="text" id="usuario" name="usuario" value="<?php
+                    if (isset($_REQUEST['usuario']) && is_null($a_errores['usuario'])) {
+                        echo $_REQUEST['usuario'];
+                    }
+                    ?>" placeholder="usuario"><font color="red">&nbsp;*</font>
+                    <font color="red"><?php echo $a_errores["usuario"] ?></font>
+                    <br> 
+                    <label for="password">Password:&nbsp;</label> 
+                    <input type="password" id="password" name="password" value="<?php
+                    if (isset($_REQUEST['password']) && is_null($a_errores['password'])) {
+                        echo $_REQUEST['password'];
+                    }
+                    ?>" placeholder="password"><font color="red">&nbsp;*</font>
+                    <font color="red"><?php echo $a_errores["password"] ?></font>
+                    <br>
+                    <font color="red"><?php echo $a_errores["noExiste"] ?></font>
+                    <br>
+                    <input type="submit" id="entrar" name="entrar" value="Entrar"> 
+                    <input type="button" id="registro" name="cancelar" value="Cancelar" onclick="location = '../index.php'"> 
+                </form> 
+
+                <?php
             }
         } catch (PDOException $pdoe) {
-            $pdoe->getMessage();
+            echo $pdoe->getMessage();
         } finally {
             unset($miDB);
         }

@@ -10,7 +10,7 @@
         error_reporting(E_ALL);
         ?>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST"> 
-            <input type="button" name="salir" value="Salir" onclick="location = 'Acceso_Ejercicio_02.php'">
+            <input type="button" name="salir" value="Atrás" onclick="location = 'Acceso_Ejercicio_02.php'">
         </form>
         <h3>$_SERVER['PHP_AUTH_USER'];</h3>
         <?php

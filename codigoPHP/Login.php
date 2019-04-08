@@ -5,6 +5,34 @@
     </head>
     <body>
         <?php
+        require_once './lang.php';
+        if (!$_SESSION['idioma']) {
+            $_SESSION['idioma'] = 'es';
+        }
+        ?>
+        <nav>
+            <form action="<?php echo $_SERVER['PHP_SELF'] . '?idioma=' . $_GET['idioma']; ?>" method="POST">
+                <label for="espanol"><img src="../webroot/images/spain.png" alt="bandera" style="width: 25px; height: 20px;"></label>
+                <input style="display: none; margin: 0;" type="radio" name="idioma" id="espanol" <?php
+                if (isset($_REQUEST['idioma']) && ($_REQUEST['idioma'] == 'espanol')) {
+
+                    echo 'checked';
+                } else {
+                    echo '';
+                }
+                ?> value="espanol" onclick="location = '?idioma=es'">
+
+                <label for="ingles"><img src="../webroot/images/granbretana.jpg" alt="bandera" style="width: 25px; height: 20px;"></label>
+                <input style="display: none; margin: 0;" type="radio" name="idioma" id="ingles" <?php
+                if (isset($_REQUEST['idioma']) && ($_REQUEST['idioma'] == 'ingles')) {
+                    echo 'checked';
+                } else {
+                    echo '';
+                }
+                ?> value="ingles" onclick="location = '?idioma=en'">
+            </form>
+        </nav>
+        <?php
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
@@ -70,6 +98,8 @@
 
             if ($entradaOK) {
                 session_start();
+
+
                 $_SESSION["usuarioIGCDepartamento"] = $_REQUEST["usuario"];
 
                 $fechaHoraActual = date('Y:m:d H:i:s', time());
@@ -104,9 +134,9 @@
             } else {
                 ?> 
 
-                <h2>Inciar sesión</h2> 
+                <h2><?php echo $iniSes; ?></h2> 
                 <form action="<?php echo $_SERVER["PHP_SELF"] ?>" method="POST"> 
-                    <label for="usuario">Código usuario:&nbsp;</label> 
+                    <label for="usuario"><?php echo $cod; ?>:&nbsp;</label> 
                     <input type="text" id="usuario" name="usuario" value="<?php
                     if (isset($_REQUEST['usuario']) && is_null($a_errores['usuario'])) {
                         echo $_REQUEST['usuario'];
@@ -114,7 +144,7 @@
                     ?>" placeholder="usuario"><font color="red">&nbsp;*</font>
                     <font color="red"><?php echo $a_errores["usuario"] ?></font>
                     <br> 
-                    <label for="password">Password:&nbsp;</label> 
+                    <label for="password"><?php echo $pass; ?>:&nbsp;</label> 
                     <input type="password" id="password" name="password" value="<?php
                     if (isset($_REQUEST['password']) && is_null($a_errores['password'])) {
                         echo $_REQUEST['password'];
@@ -124,8 +154,9 @@
                     <br>
                     <font color="red"><?php echo $a_errores["noExiste"] ?></font>
                     <br>
-                    <input type="submit" id="entrar" name="entrar" value="Entrar"> 
-                    <input type="button" id="registro" name="cancelar" value="Cancelar" onclick="location = '../index.php'"> 
+                    <input type="submit" id="entrar" name="entrar" onclick="location = '?idioma=<?php echo $_SESSION['idioma'] ?>'" value="<?php echo $entrar ?>"> 
+                    <input type="button" id="registro" name="registrar" value="<?php echo $reg ?>" onclick="location = 'Registro.php'">
+                    <input type="button" id="cancelar" name="cancelar" value="<?php echo $cancelar ?>" onclick="location = '../index.php'"> 
                 </form> 
 
                 <?php
@@ -136,5 +167,6 @@
             unset($miDB);
         }
         ?>
+
     </body>
 </html>

@@ -4,16 +4,19 @@
         <title>Ejercicio 01 - Israel García Cabañeros</title>
     </head>
     <body>
+
         <?php
         ini_set('display_errors', 1);
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
-        if (isset($_POST['salir'])) {
-            $_SERVER['PHP_AUTH_USER'] = '';
-            $_SERVER['PHP_AUTH_PW'] = '';
-            header('Location: ../index.php');
-        }
+
+        /* if (isset($_POST['salir'])) {
+          $_SERVER['PHP_AUTH_USER'] = '';
+          $_SERVER['PHP_AUTH_PW'] = '';
+          header('Location: ../index.php');
+          exit;
+          } */
 
         if ($_SERVER['PHP_AUTH_USER'] != 'admin' || $_SERVER['PHP_AUTH_PW'] != 'paso') {
             header('WWW-Authenticate: Basic Realm="usuarioDBDepartamentos"');
@@ -23,7 +26,7 @@
         }
         ?>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST"> 
-            <input type="submit" name="salir" value="Salir">
+            <input type="button" name="salir" value="Volver" onclick="location = '../index.php'">
         </form>
         <h3>$_SERVER['PHP_AUTH_USER'];</h3>
         <?php

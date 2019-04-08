@@ -53,7 +53,7 @@
                 /* echo $mensaje; */
                 ?>
             </p>
-            <input type="submit" name="salir" value="Cerrar Sesión">
+            <input type="button" name="salir" value="Volver index.php" onclick="location = '../index.php'">
             <input type="submit" name="detalle" value="Detalle">
         </form>
     </body>

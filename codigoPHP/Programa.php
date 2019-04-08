@@ -12,6 +12,16 @@
         require "../config/config.php";
         require "../core/validacionFormularios.php";
 
+        $entradaOK = true;
+
+        $a_errores = [
+            'edad' => null
+        ];
+
+        $a_respuesta = [
+            'edad' => null
+        ];
+
         session_start();
 
         if (!isset($_SESSION['usuarioIGCDepartamento'])) {
@@ -25,7 +35,20 @@
         if (isset($_REQUEST['salir'])) {
             unset($_SESSION['usuarioIGCDepartamento']);
             session_destroy();
-            header('Location: ./Login.php');
+            header('Location: ./Login.php?idioma=' . $_SESSION['idioma']);
+        }
+
+        /* if (!isset($_COOKIE['edad']) && isset($_REQUEST['enviarEdad'])) {
+          if (!isset($_COOKIE['edad'])) {
+          setcookie('edad', $_POST['edad'], time() + 7600);
+          header('Refresh:0');
+          }
+          setcookie('edad', $_POST['enviarEdad'], time() + 7600);
+          } else if (isset($_COOKIE['edad']) && isset($_REQUEST['enviarEdad'])) {
+          $_COOKIE['edad'];
+          } */
+        if (isset($_POST['edad'])) {
+            setcookie('edad', $_POST['edad'], time() + 30);
         }
 
         $usuario = $_SESSION['usuarioIGCDepartamento'];
@@ -59,7 +82,23 @@
         }
         ?>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <?php
+            if (!isset($_POST['edad'])) {
+                if (isset($_COOKIE['edad'])) {
+                    ?>
+                    <p>Edad de <?php echo $usuario ?>: <?php echo $_COOKIE['edad'] ?>.</p>
+                    <?php
+                } if (isset($_POST['edad'])) {
+                    echo $_POST['edad'];
+                }
+                ?>
+                <label for="edad">Edad:&nbsp;</label>
+                <input type="text" name="edad" placeholder="edad">
+                <input type="submit" name="enviarEdad" value="Cookie Edad"/>
+                <br>
+            <?php } ?>
             <input type="submit" name="detalle" value="Detalle"/>
+            <input type="button" name="editar" value="Editar perfil" onclick="location = 'EditarPerfil.php'"/>
             <input type="submit" name="salir" value="Cerrar Sesión"/>
         </form>
     </body>
